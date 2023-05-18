@@ -1,0 +1,31 @@
+---
+title: "ENVX2001 Project 2"
+author: '510443678'
+date: "2023-05-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Using happiness data
+```{r}
+library(tidyverse)
+happy <- read.csv("world-happiness-report-2021.csv")
+
+happy_pred = happy[c(3, 7:12)]
+#visdat::vis_miss(happy_pred)
+
+cor(happy_pred)
+```
+
+```{r}
+full_model <- lm(Ladder.score ~ ., data = happy_pred)
+red_model <- step(full_model, direction = "backward")
+
+summary(full_model)
+summary(red_model)
+AIC(full_model, red_model)
+```
+
